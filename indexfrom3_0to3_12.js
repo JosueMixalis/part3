@@ -5,19 +5,16 @@ const cors = require('cors')
 const app = express()
 
 const myMorgan = (tokens,request, response) => {
-  morgan.token('postBody', (request,response) =>{
+  morgan.token('postBody', (request,response) => {
     return tokens.method(request, response) === 'POST'? JSON.stringify(request.body): ''
   } )
   return [
-      tokens.method(request, response),
-      tokens.url(request, response),
-      tokens.status(request, response),
-      tokens.res(request, response, 'content-length'), '-',
-      tokens['response-time'](request, response), 'ms',
-      tokens.postBody(request,response)
-      
-    ].join(' ')
-  
+    tokens.method(request, response),
+    tokens.url(request, response),
+    tokens.status(request, response),
+    tokens.res(request, response, 'content-length'), '-',
+    tokens['response-time'](request, response), 'ms',
+    tokens.postBody(request,response)].join(' ')
 }
 
 const requestLogger = (request, response, next) => {
@@ -27,7 +24,6 @@ const requestLogger = (request, response, next) => {
   console.log('---')
   next()
 }
-  
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
@@ -40,44 +36,35 @@ app.use(express.static('dist'))
 
 
 let persons = [
-    { 
-      "id": 1,
-      "name": "Arto Hellas", 
-      "number": "040-123456"
-    },
-    { 
-      "id": 2,
-      "name": "Ada Lovelace", 
-      "number": "39-44-5323523"
-    },
-    { 
-      "id": 3,
-      "name": "Dan Abramov", 
-      "number": "12-43-234345"
-    },
-    { 
-      "id": 4,
-      "name": "Mary Poppendieck", 
-      "number": "39-23-6423122"
-    },
+  { 'id': 1,
+    'name': 'Arto Hellas', 'number': '040-123456'
+  },
+  { 'id': 2,
+    'name': 'Ada Lovelace', 'number': '39-44-5323523'
+  },
+  { 'id': 3,
+    'name': 'Dan Abramov', 'number': '12-43-234345'
+  },
+  { 'id': 4,
+    'name': 'Mary Poppendieck', 'number': '39-23-6423122'
+  },
 ]
 
 app.get('/',(request,response) => {
-    response.send('<h1>Hello to PhoneBook backend</h1>')
+  response.send('<h1>Hello to PhoneBook backend</h1>')
 })
 
 app.get('/info',(request,response) => {
 
-    const actualTime = new Date()
+  const actualTime = new Date()
 
-    let responseFromInfo = `<p> PhoneBook has info for ${persons.length} people </p>
+  let responseFromInfo = `<p> PhoneBook has info for ${persons.length} people </p>
         <p> ${actualTime}</p>`
-        
-    response.send(responseFromInfo)
+  response.send(responseFromInfo)
 })
 
-app.get('/api/persons',(request,response)=> {
-    response.json(persons)
+app.get('/api/persons',(request,response) => {
+  response.json(persons)
 })
 
 app.get('/api/persons/:id',(request,response) => {
@@ -101,15 +88,14 @@ app.delete('/api/persons/:id',(request,response) => {
 })
 
 const generateId = () => {
-  return Math.floor(Math.random()*100000);
+  return Math.floor(Math.random()*100000)
 }
 
 app.post('/api/persons',(request,response) => {
   const body = request.body
-  
   if(!body.name || !body.number){
     return response.status(400).json({
-      error:"Content Missing"
+      error:'Content Missing'
     })
   }
 
@@ -117,7 +103,7 @@ app.post('/api/persons',(request,response) => {
 
   if(nameExists){
     return response.status(400).json({
-      error: "name must be unique"
+      error: 'name must be unique'
     })
   }
 
@@ -134,9 +120,9 @@ app.post('/api/persons',(request,response) => {
 
 })
 
-app.use(unknownEndpoint);
+app.use(unknownEndpoint)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT,() => {
-    console.log(`Server running on port ${PORT}`)
+  console.log(`Server running on port ${PORT}`)
 })
