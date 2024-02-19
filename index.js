@@ -39,7 +39,7 @@ const unknownEndpoint = (request, response) => {
 
 
 
-errorHandler= (error,request,response,next) => {
+/*errorHandler= (error,request,response,next) => {
 
   if(error.name === 'CastError') {
     return response.status(404).send({error: 'malformatted id'})
@@ -48,7 +48,7 @@ errorHandler= (error,request,response,next) => {
     return response.status(400).json({error: error.message})
   }
   next(error)
-}
+}*/
   
 
 
@@ -146,7 +146,7 @@ app.put('/api/persons/:id',(request,response/*,next*/) => {
 })
 
 app.use(unknownEndpoint);
-app.use(errorHandler)
+/*app.use(errorHandler)*/
 
 const PORT = process.env.PORT
 app.listen(PORT,() => {
