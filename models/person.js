@@ -19,7 +19,7 @@ const personSchema = new mongoose.Schema ({
       minlength: 3,
       requiere: true,
     },
-    number:{
+    number:String/*{
       type:String,
       minlength:8,
       validate: {
@@ -29,7 +29,7 @@ const personSchema = new mongoose.Schema ({
       message: props => `${props.value} is not a valid phone number!`
     },
       requiere:[true, 'User phone number requiered']
-    }
+    }*/
 })
 
 
